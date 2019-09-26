@@ -1,0 +1,21 @@
+{
+  "name": "xml_parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch",
+    "test:commit": "jest --coverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "husky": "^3.0.5",
+    "jest": "^24.9.0"
+  }
+}
