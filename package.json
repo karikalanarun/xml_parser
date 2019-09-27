@@ -15,7 +15,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "crocks": "^0.12.4",
     "husky": "^3.0.5",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "ramda": "^0.26.1"
   }
 }
