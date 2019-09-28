@@ -25,14 +25,40 @@ const both = R.curry((p1, p2) =>
   )
 );
 
-// many :: Parser a -> Parser [a]
-const many = R.curry(parser => string => {
-  parser(string).chain();
-});
-
 const seq = R.curry((...parsers) => parsers.reduce(both));
 
 const result = R.curry((result, remainder) => Just({ result, remainder }));
+
+// chainP :: Parser a -> (a -> Parser b) -> Parser b
+const chainP = R.curry((parser, step, string) =>
+  parser(string).chain(({result, remainder}) =>
+    step(result)(remainder)
+  )
+);
+
+// parse 0 or more occurrences (always succeeds, e.g. with [] if no matches)
+// many0 :: Parser a -> Parser [a]
+const many0 = R.curry(parser => string =>
+  chainP(
+    parser,
+    x => chainP(
+      many0(parser),
+      xs => result([x, ...xs])
+    )
+  )(string).either(() => result([])(string), Just)
+);
+
+// parse 1 or more occurrences
+// many1 :: Parser a -> Parser [a]
+const many1 = R.curry(parser => string =>
+  chainP(
+    parser,
+    x => chainP(
+      many0(parser),
+      xs => result([x, ...xs])
+    )
+  )(string)
+);
 
 // parseChar :: string -> Parser string
 const parseChar = char => string =>
