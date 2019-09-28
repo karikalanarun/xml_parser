@@ -45,7 +45,7 @@ const many0 = R.curry(parser => string =>
       many0(parser),
       xs => result([x, ...xs])
     )
-  )(string).either(() => result([])(string), x => Just(x))
+  )(string).either(() => result([])(string), Just)
 );
 
 // parse 1 or more occurrences
